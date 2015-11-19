@@ -1,4 +1,4 @@
-(function ( ) { 
+//(function () {
     document.getElementById("buttons").appendChild(document.createElement("button"));
     document.getElementById("buttons").lastChild.appendChild(document.createTextNode("Ajax Load"));
     document.getElementById("buttons").lastChild.setAttribute("class", "one");
@@ -19,7 +19,7 @@
     document.getElementById("buttons").lastChild.setAttribute("class", "four");
     
     
-    function genhtml(NBATeams){
+    function genhtml(NBATeams) {
         var target = document.getElementById("output");
         var i;
         var Array = NBATeams["Oklahoma City Thunder"];
@@ -37,32 +37,48 @@
             target.lastChild.appendChild(document.createTextNode(Array[i]["assists per game"]));
 
         }
-    };
+    }
     
     function getHTTPObject() {
         var xhr;
         if (window.XMLHttpRequest) {
             xhr = new XMLHttpRequest();
         }
-        else if (window.ActiveXObject) {
+            else if (window.ActiveXObject) {
             xhr = new ActiveXObject("Msxm12.XMLHTTP");
-        }
+            }
         return xhr;
-    };
+    }
+    
+    var x;
+    
+    function assign (jsondata){
+        x = jsondata;
+    }
     
     function ajaxcall(dataurl) {
-        var ajaxreq = getHTTPObject();        
+        var ajaxreq = getHTTPObject();       
         ajaxreq.open("GET", dataurl, true);
         ajaxreq.send(null);
         ajaxreq.onreadystatechange = function () {
-            if ( ajaxreq.readyState === 4 && ajaxreq.status === 200 ) {
+            if (ajaxreq.readyState === 4 && ajaxreq.status === 200) {
                 var NBA = JSON.parse(ajaxreq.responseText);
                 genhtml(NBA);
-                }
+                assign(NBA);
             }
-    };
+        };
+        console.log("test")
+    }
+    
+    function localsave() {
+        var NBAString = JSON.stringify(x);
+        localStorage.setItem("NBATeams", x);
+    }
     document.getElementsByClassName("one")[0].addEventListener("click", ajaxcall("data/okc.json"), false);
-}());
+    document.getElementsByClassName("one")[0].addEventListener("click", console.log(ajaxcall("data/okc.json")), false);
+    document.getElementsByClassName("three")[0].addEventListener("click", localsave, false);
+    document.getElementsByClassName("three")[0].addEventListener("click", console.log(JSON.stringify(x)), false);
+//}());
     
 
 
