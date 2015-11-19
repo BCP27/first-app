@@ -1,4 +1,4 @@
-//(function () {
+(function () {
     document.getElementById("buttons").appendChild(document.createElement("button"));
     document.getElementById("buttons").lastChild.appendChild(document.createTextNode("Ajax Load"));
     document.getElementById("buttons").lastChild.setAttribute("class", "one");
@@ -57,6 +57,10 @@
     }
     
     function ajaxcall() {
+        var mynode = document.getElementById("output");
+        while (mynode.firstChild) {
+            mynode.removeChild(mynode.firstChild);
+        }
         var ajaxreq = getHTTPObject();       
         ajaxreq.open("GET", "data/okc.json", true);
         ajaxreq.send(null);
@@ -72,13 +76,35 @@
     
     function localsave() {
         var NBAString = JSON.stringify(x);
-        localStorage.setItem("NBATeams", x);
+        localStorage.setItem("NBATeams", NBAString);
     }
+    
+    function localclear() {
+        localStorage.removeItem("NBATeams");
+    }
+    
+    function localload() {
+        if (typeof(localStorage) === "undefined"){
+            alert("Local Storage not supported");
+        }
+        else {
+            var mynode = document.getElementById("output");
+            while (mynode.firstChild) {
+            mynode.removeChild(mynode.firstChild);
+        }
+            genhtml(JSON.parse(localStorage.getItem("NBATeams")));
+        }
+    }
+    
     document.getElementsByClassName("one")[0].addEventListener("click", ajaxcall, false);
     document.getElementsByClassName("one")[0].addEventListener("click", console.log(ajaxcall), false);
+            
+    document.getElementsByClassName("two")[0].addEventListener("click", localload, false);
+    
     document.getElementsByClassName("three")[0].addEventListener("click", localsave, false);
-    document.getElementsByClassName("three")[0].addEventListener("click", console.log(JSON.stringify(x)), false);
-//}());
+    
+    document.getElementsByClassName("four")[0].addEventListener("click", localclear, false);
+}());
     
 
 
