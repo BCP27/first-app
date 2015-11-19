@@ -56,9 +56,9 @@
         x = jsondata;
     }
     
-    function ajaxcall(dataurl) {
+    function ajaxcall() {
         var ajaxreq = getHTTPObject();       
-        ajaxreq.open("GET", dataurl, true);
+        ajaxreq.open("GET", "data/okc.json", true);
         ajaxreq.send(null);
         ajaxreq.onreadystatechange = function () {
             if (ajaxreq.readyState === 4 && ajaxreq.status === 200) {
@@ -74,8 +74,8 @@
         var NBAString = JSON.stringify(x);
         localStorage.setItem("NBATeams", x);
     }
-    document.getElementsByClassName("one")[0].addEventListener("click", ajaxcall("data/okc.json"), false);
-    document.getElementsByClassName("one")[0].addEventListener("click", console.log(ajaxcall("data/okc.json")), false);
+    document.getElementsByClassName("one")[0].addEventListener("click", ajaxcall, false);
+    document.getElementsByClassName("one")[0].addEventListener("click", console.log(ajaxcall), false);
     document.getElementsByClassName("three")[0].addEventListener("click", localsave, false);
     document.getElementsByClassName("three")[0].addEventListener("click", console.log(JSON.stringify(x)), false);
 //}());
